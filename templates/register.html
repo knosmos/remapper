@@ -1,0 +1,93 @@
+<html>
+    <head><meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>ReMapper | Login</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <style>
+            body{
+                background-image: url('static/IMG_3129.JPG')
+            }
+            input[type=submit] {
+                background-color: lightslategray; /* Green */
+                border: 2px solid lightslategray;
+                color: white;
+                padding: 5px 10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                border-radius: 26px;
+                width: 80%;
+            }
+
+            input[type=text],input[type=password] {
+                background-color: rgb(235, 240, 245); /* Green */
+                color: black;
+                padding: 5px 10px;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                border-radius: 10px;
+                width: 80%;
+                border:none;
+            }
+
+            input[type=submit]:hover{
+                background-color: white;
+                color: black;
+                border: 2px solid #e7e7e7;
+                padding: 5px 10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                border-radius: 26px;
+            }
+            #flashmsg {
+                color:black;
+                border-radius: 5px;
+                padding: 1em;
+                text-align: center;
+                width: 80%;
+                background-color: lightcoral;
+		        opacity:0.7;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+            <img src="static/imgs/newrlogo.png" style="width:30px">
+            <a class="navbar-brand" href="/" style='color:white;margin-left:10px'>Remapper</a>
+        </nav>
+        <div style="margin:30px" id='form-container'>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+	  <div id=flashmsg><p>{{message}}   <a href='#' onclick='dismiss()'>Dismiss</a></p></div>
+          {% endfor %}
+        {% endif %}
+    {% endwith %}
+        <br>
+        <h3>Register</h3>
+        <hr>
+        <form method="post" enctype="multipart/form-data">
+        <h3>Username</h3> 
+        <input type="text" name='username'>
+        <h3>Password</h3>
+        <input type="password" name='password'>
+        <h3>Retype Password</h3>
+        <input type="password" name='password2'>
+        <hr>
+        <input type="submit" value="Register">
+        </form>
+        </div>
+	<script>
+	function dismiss() {
+	document.getElementById('flashmsg').style.display = 'none';
+	}
+	</script>
+    </body>
+</html>

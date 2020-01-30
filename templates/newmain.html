@@ -1,0 +1,141 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>ReMapper</title>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/album/">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+
+    <style>
+        #gencard{
+            margin: 3em;
+            border-radius: 10px;
+            background-color: #fcfcfc;
+            box-shadow: 2px 2px 5px lightslategray;
+        }
+
+        #gencard:hover{
+            background-color:#ececec;
+        }
+
+        button {
+            background-color: lightseagreen; /* Green */
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 26px;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: rgb(202, 177, 130);
+            color:black;
+        }
+        #flashmsg {
+                color:black;
+                border-radius: 5px;
+                padding: 1em;
+                margin: 1em;
+                background-color: rgb(89, 175, 101);
+                opacity: 0.6;
+            }
+        img:hover {
+          opacity: 0.8;
+          filter: alpha(opacity=50); /* For IE8 and earlier */
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="static\album.css" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <img src="static/imgs/newrlogo.png" style="width:50px">
+        <a class="navbar-brand" href="/" style='color:white;margin-left:10px'>Remapper</a>
+    </nav>
+
+<main role="main">
+
+  <!--Header-->
+  <section class="jumbotron text-center" style="background-image:url('static/IMG_3129.JPG');background-size:cover;  background-attachment: fixed;background-position: center;background-repeat: no-repeat;">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+      <div id=flashmsg><p style="opacity:1">{{message}}   <a href="/" onclick="dismiss()">Dismiss</a></p></div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+    <div class="container">
+      <h1 class="jumbotron-heading"><strong>ReMapper</strong></h1>
+      <p>Interactive map creation for trip recording</p>
+      <p>
+        <!--<a href="new" class="btn btn-primary my-2">Create a new trip</a>-->
+        <button id="rbtn" onclick='location.href="new"'>Create New</button>
+      </p>
+    </div>
+  </section>
+  <!--Toast Messages-->
+  <!--Cards-->
+  <div class="album py-5 bg-light">
+  <!--<div style="background:rgb(193, 219, 245);"-->
+        <div id="tripcards" style="display:grid;grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+        <h2><i>No Trips Yet</i></h2>
+      </div>
+<!--</div>-->
+
+<script>
+    var thumbnailimgs = {{thumbnailimgs|safe}};
+    var tripnames = {{tripnames|safe}};
+    var tripurls = {{tripurls|safe}};
+    tripdiv=document.getElementById("tripcards");
+    tripdiv.innerHTML='';
+    for(var i=0;i<tripnames.length;i++){
+        tripdiv.innerHTML+=`
+        <div id="gencard">
+            <img src="${thumbnailimgs[i]}" width="100%" style="border-radius: 10px 10px 0px 0px;"></img>
+            <p style="margin:10px"><b>${tripnames[i]}</b></p>
+            <button type="button" onclick="location.href='view?name=${tripurls[i]}'">View</button>
+        </div>
+        `;
+        
+        /*`
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm" style="float:left">
+            <img src="${thumbnailimgs[i]}" width="100%"></img>
+            <div class="card-body">
+                <p class="card-text"><b>${tripnames[i]}</b></p>
+                <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <button type="button" onclick="location.href='view?name=${tripurls[i]}'">View</button>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>`;*/
+    }
+    function dismiss(){
+      var off=document.getElementById('flashmsg');
+      off.style.display = "none";
+    }
+</script>
+
+</main>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</html>

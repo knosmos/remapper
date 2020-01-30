@@ -1,0 +1,170 @@
+<html>
+    <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>ReMapper|New Trip</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="static/style.css">
+    </head>
+    <body>
+      <style>
+        select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type=text] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 26px;
+            box-sizing: border-box;
+        }
+        input[type=file] {
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+        }
+        input[type=file] + label {
+            width: 100%;
+            background-color: lightslategray;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 26px;
+            cursor: pointer;
+        }
+        input[type=file]:focus + label,
+        input[type=file] + label:hover {
+            background-color: rgb(202, 177, 130);
+            color:black;
+        }
+        input[type=submit] {
+            width: 100%;
+            background-color: rgb(60, 110, 160);
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 26px;
+            cursor: pointer;
+        }
+        input[type=submit]:hover {
+            background-color: rgba(97, 156, 97, 0.897);
+            color:black;
+        }
+        #boxed,#gpx-name {
+            border-radius: 10px;
+            background-color: #fcfcfc;
+            padding: 20px;
+            box-shadow: 2px 2px 5px lightslategray;
+        }
+        #imgcard {
+            border-radius: 10px;
+            background-color: #fcfcfc;
+            margin: 10px;
+            float: left;
+            width:300px;
+            height:300px;
+            box-shadow: 2px 2px 5px lightslategray;
+        }
+      </style>
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+            <img src="static/imgs/newrlogo.png" style="width:30px">
+            <a class="navbar-brand" href="/" style='color:white;margin-left:10px'>Remapper</a>
+        </nav>
+        <div style="margin:30px" id='form-container'>
+        <h3>New Trip</h3>
+        <a href='/'><h4>Cancel</h4></a>
+        <hr>
+        <form method="post" enctype="multipart/form-data">
+        <h3>Trip Name</h3> <input type="text" name='name'><br>
+        <hr>
+        <h3>GPX File</h3><input type="file" name="gpxfile" id="gpxfile" class="infile" />
+        <label for="gpxfile">Choose GPX File</label>
+        <div id="gpx-name">
+          <h5><i>No GPX File chosen.</i></h5>
+        </div>
+        <h3>Images</h3><input type="file" multiple name="images" id="images" class="infile" data-multiple-caption="{count} files selected"/>
+        <label for="images">Choose Images</label>
+        <div id="preview">
+          <div id="boxed"><h5><i>No images chosen.</i></h5></div>
+          <hr>
+        </div>
+        <input type="submit" value="Upload" onclick="waitload()">
+        <!--<a href="edittrip.html"><h4>Next</h4></a>-->
+        </form>
+        </div>
+
+        <script>
+          function previewImages() {
+
+          var preview = document.querySelector('#preview');
+
+          if (this.files) {
+            preview.innerHTML='';
+            [].forEach.call(this.files, readAndPreview);
+            preview.innerHTML+='<hr>'
+          }
+
+          function readAndPreview(file) {
+
+            // Make sure `file.name` matches our extensions criteria
+            if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+              return alert(file.name + " is not an image");
+            } // else...
+            
+            var reader = new FileReader();
+            
+            reader.addEventListener("load", function() {
+              preview.innerHTML+=`
+              <div id='imgcard'>
+              <img src=${this.result} height="300px" style="width:300px;object-fit:cover;border-radius:10px;">
+              </div>
+              `;
+            });
+            
+            reader.readAsDataURL(file);
+            
+          }
+
+          }
+
+          document.querySelector('#images').addEventListener("change", previewImages);
+
+          function showgpxname() {
+            var gpxpreview = document.querySelector('#gpx-name');
+            gpxpreview.innerHTML='';
+            if (this.files) {
+              [].forEach.call(this.files, addName);
+            }
+            function addName(file){
+              if (!/\.(gpx|txt)$/i.test(file.name)) {
+                return alert(file.name + " is not a valid GPX file");
+              }
+              gpxpreview.innerHTML+=`
+              <h5>${file.name}</h5>
+              `;
+            }
+          }
+
+          document.querySelector('#gpxfile').addEventListener("change", showgpxname);
+
+          function waitload(){
+            alert('loading');
+            document.getElementById('form-container')='Loading';
+            alert('loading loader');
+          }
+          </script>
+    </body>
+</html>

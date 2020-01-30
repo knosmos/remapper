@@ -1,0 +1,136 @@
+<html>
+    <head><meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>ReMapper | Trip</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <style>
+            button {
+                background-color: lightslategray; /* Green */
+                border: 2px solid lightslategray;
+                color: white;
+                padding: 5px 10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                border-radius: 26px;
+            }
+
+            button:hover {
+                background-color: white;
+                color: black;
+                border: 2px solid #e7e7e7;
+                padding: 5px 10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                border-radius: 26px;
+            }
+        </style>
+    </head>
+    <body>
+      <main role="main">
+        <div style="margin:0px;">
+            <h3 class="navbar-brand">
+                {{name|safe}}
+            </h3>
+            <style>
+            html,body{
+                width:100%;
+                height:100%;
+                }
+            #mapid{
+                width:100%;
+                height:40%
+            }
+            </style>
+            <div id="mapid" style="border-radius:10px;box-shadow: 5px 5px 10px grey"></div>
+            <hr>
+            
+            <button onclick="previousMarker()" style="width:48%">Previous Marker</button>
+            <button onclick="moveCenter()" style="width:48%">Next Marker</button>
+            
+            <hr>
+            <div id="names"></div>
+            <div id="j" style="float:left"></div>
+            
+            <script>
+                var route={{route|safe}};
+                var imgs={{images|safe}};
+                var comments={{comments|safe}};
+                var points={{points|safe}};
+                var imgCoords={{imgcoords|safe}};
+                var currentMarker=0;
+                function moveCenter(){
+                    if(currentMarker>imgCoords.length){
+                        window.currentMarker=0;
+                        alert('End of Points');
+                    }
+                    mymap.setView(window.imgCoords[currentMarker], 15);
+                    markers[currentMarker].openPopup();
+                    addNames(currentMarker);
+                    showLg(imgs[currentMarker]);
+                    currentMarker++;
+                }
+                function previousMarker(){
+                    currentMarker-=1;
+                    mymap.setView(imgCoords[currentMarker], 15);
+                    markers[currentMarker].openPopup();
+                    showLg(imgs[currentMarker]);
+                }
+                function showLg(group){
+                    var id=group
+                    document.getElementById("j").innerHTML=''
+                    for (var i=0;i<id.length;i++){
+                        document.getElementById("j").innerHTML+=`<img src='static\\${id[i]}'
+                         style='float:left;
+                         width:100%;
+                         margin:5px;
+                         border-radius:20px;
+                         box-shadow: 5px 5px 10px grey;
+                         '>`;
+                    }
+                }
+                function addNames(currentMarker){
+                    document.getElementById("names").innerHTML="<h4>"+points[currentMarker]+"</h4><p>"+comments[currentMarker]+"</p><hr>";
+                }
+                function k(e){
+                    var index = e.target.options.title
+                    var id=imgs[index]
+                    addNames(index);
+                    document.getElementById("j").innerHTML=''
+                    for (var i=0;i<id.length;i++){
+                        document.getElementById("j").innerHTML+=`<img src='static\\${id[i]}'
+                         style='float:left;
+                         width:100%;
+                         margin:5px;
+                         border-radius:20px;
+                         box-shadow: 5px 5px 10px grey;
+                         '>`;
+                    }
+                }
+                var mymap = L.map('mapid').setView(imgCoords[0], 15);
+                L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                    maxZoom: 100,
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                        'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    id: '{{ maptype | safe}}'
+                    /*L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 18
+                    })*/}).addTo(mymap);
+                L.polyline(route).addTo(mymap);
+                markers=[]
+                for(var i = 0;i<imgs.length;i++){
+                    mk=L.marker(imgCoords[i],{title:i}).bindPopup("<img src='static\\"+imgs[i][0]+"' width=80px>").on("click",k).addTo(mymap);
+                    markers.push(mk);
+                }
+            </script>
+            </div>
+        </div>
+    </main>
+    </body>
+</html>
