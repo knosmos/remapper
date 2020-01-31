@@ -5,3 +5,6 @@ Remapper is a web application that can generate an interactive map of paths trav
 ## How does it work?
 
 Remapper is a Python [Flask](https://www.palletsprojects.com/p/flask/) app. To start up the Remapper server, run `__init__.py` inside the `remapper` directory. Once the server starts up, Remapper can be accessed by navigating to `127.0.0.1:5000` in a web browser on the local device or by navigating to `[host computer IPv4]:5000` on another device (for example `192.168.1.48:5000`).
+
+## Video
+<iframe width="560" height="315" src="https://www.youtube.com/watch?v=dixEf6g9pA8" frameborder="0"  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
