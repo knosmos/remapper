@@ -57,37 +57,15 @@ def get_coordinates(geotags):
 
     return [lat,lon]
 
-'''path = 'Mt_Fuji'
-files = []
-# r=root, d=directories, f = files
-for r, d, f in os.walk(path):
-    for file in f:
-        print file
-        if '.JPG' in file:
-            files.append(os.path.join(r, file))
-
-#files = ['IMG_5689.JPG','IMG_5731.JPG','IMG_5725.JPG']
-#files = 
-geos = []
-for i in files:
-    exif = get_exif(i)
-    print(exif)
-    geotags = get_geotagging(exif)
-    #print('--------------------')
-    #print(get_coordinates(geotags))
-    geos.append(get_coordinates(geotags))
-print files
-print '--------'
-print geos'''
-
 def return_gps(path):
     files = []
     # r=root, d=directories, f = files
-    for r, d, f in os.walk('static\\trips\\'+path+'\\images'):
+    print path
+    for r, d, f in os.walk('static\\users\\'+path+'\\images'):
         for file in f:
             print file
             if 1:
-                files.append([str('trips\\'+path+'\\images\\'+file)])
+                files.append([str('users\\'+path+'\\images\\'+file)])
     geos = []
     for n in files:
         for i in n:
@@ -98,9 +76,3 @@ def return_gps(path):
             i=i.replace('\\','/')
     print files,geos
     return files,geos
-
-'''for i in files:
-    exif=get_exif(i)
-    geotags=get_geotagging(exif)
-    j=get_coordinates(geotags)
-    print("L.marker(["+str(j[0])+","+str(j[1])+"]).addTo(map).bindPopup('<center><img src=%s height=100px/>');") %(i)'''
